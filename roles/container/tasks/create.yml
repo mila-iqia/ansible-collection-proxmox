@@ -1,0 +1,57 @@
+---
+- name: Setup LXC Containers
+  community.general.proxmox:
+    proxmox_default_behavior: 'no_defaults'
+    api_host: "{{ proxmox_api_host }}"
+    api_token_id: "{{ item.api_token_id | default(proxmox_api_token_id) }}"
+    api_token_secret: "{{ item.api_token_secret | default(proxmox_api_token_secret) }}"
+    api_user: "{{ item.api_user | default(proxmox_api_user) }}"
+    cores: "{{ item.cores | default(1) }}"
+    cpus: "{{ item.cpus | default(1)  }}"
+    cpuunits: "{{ item.cpuunits | default(1000)  }}"
+    description: "{{ item.description | default(omit)  }}"
+    disk: "{{ item.disk }}"
+    features: "{{ item.features | default(omit) }}"
+    force: "{{ item.force | default(omit) | bool }}"
+    hookscript: "{{ item.hookscript | default(omit) }}"
+    hostname: "{{ item.hostname }}"
+    memory: "{{ item.memory | default(512) }}"
+    nameserver: "{{ item.nameserver | default(omit) }}"
+    # Remember to create bridge first on hypervisor
+    # https://pve.proxmox.com/wiki/Install_Proxmox_VE_on_Debian_11_Bullseye#Create_a_Linux_Bridge
+    netif: "{{ item.netif }}"
+    node: "{{ item.node }}"
+    onboot: "{{ item.onboot | default(False) }}"
+    ostemplate: "{{ item.ostemplate }}"
+    pubkey: "{{ item.pubkey | default(proxmox_pubkey) | default(omit) }}"
+    state: "{{ item.state | default('present') }}"
+    swap: "{{ item.swap | default(0) }}"
+    timeout: "{{ item.timeout | default(120) }}"
+    unprivileged: "{{ item.unprivileged | default(omit) }}"
+    validate_certs: "{{ item.validate_certs | default(omit) | bool }}"
+    vmid: "{{ item.vmid | default(omit) }}"
+  loop: "{{ proxmox_container }}"
+  register: proxmox_container_setup
+
+- name: Pause for 10 seconds to finish LXC setup
+  pause:
+    seconds: 10
+  when: proxmox_container_setup.changed
+
+- name: Start Containers
+  community.general.proxmox:
+    proxmox_default_behavior: 'no_defaults'
+    api_host: "{{ proxmox_api_host }}"
+    api_user: "{{ proxmox_api_user }}"
+    api_token_id: "{{ proxmox_api_token_id }}"
+    api_token_secret: "{{ proxmox_api_token_secret }}"
+    node: "{{ item.node }}"
+    hostname: "{{ item.hostname }}"
+    state: started
+  loop: "{{ proxmox_container }}"
+  register: proxmox_container_start
+
+- name: Pause for 20 seconds to finish LXC start
+  pause:
+    seconds: 20
+  when: proxmox_container_start.changed

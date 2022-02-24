@@ -1,0 +1,8 @@
+---
+- name: Import tasks to install containers templates
+  ansible.builtin.include_tasks:
+    file: install_templates.yml
+
+- name: Import tasks to create containers
+  ansible.builtin.include_tasks:
+    file: create.yml
