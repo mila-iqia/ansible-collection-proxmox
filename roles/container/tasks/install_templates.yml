@@ -1,0 +1,18 @@
+---
+- name: Set facts to install OS templates
+  ansible.builtin.set_fact:
+    _ostemplate_regex: '^([a-z]+):([a-z]+)/(.*)'
+    _list_of_templates: "{{ proxmox_container | community.general.json_query('[*].ostemplate') | unique }}"
+
+- name: Download proxmox appliance container templates
+  community.general.proxmox_template:
+    api_host: "{{ proxmox_api_host }}"
+    api_user: "{{ proxmox_api_user }}"
+    api_token_id: "{{ proxmox_api_token_id }}"
+    api_token_secret: "{{ proxmox_api_token_secret }}"
+    node: "{{ item.0 }}"
+    storage: "{{ item.1 | regex_search(_ostemplate_regex, '\\1') | first }}"
+    content_type: "{{ item.1 | regex_search(_ostemplate_regex, '\\2') | first }}"
+    template: "{{ item.1 | regex_search(_ostemplate_regex, '\\3') | first }}"
+    timeout: 300
+  loop: "{{ groups[pve_group] | product(_list_of_templates) | list }}"

@@ -1,0 +1,32 @@
+---
+- name: Stop Containers
+  community.general.proxmox:
+    proxmox_default_behavior: 'no_defaults'
+    #proxmox_default_behavior: 'compatibility'
+    api_host: "{{ proxmox_api_host }}"
+    api_user: "{{ proxmox_api_user }}"
+    api_token_id: "{{ proxmox_api_token_id }}"
+    api_token_secret: "{{ proxmox_api_token_secret }}"
+    node: "{{ item.node }}"
+    hostname: "{{ item.hostname }}"
+    state: stopped
+  loop: "{{ proxmox_container }}"
+  register: proxmox_container_stop
+
+- name: Pause for 10 seconds to finish LXC stop
+  pause:
+    seconds: 10
+  when: proxmox_container_stop.changed
+
+- name: Destroy Containers
+  community.general.proxmox:
+    proxmox_default_behavior: 'no_defaults'
+    #proxmox_default_behavior: 'compatibility'
+    api_host: "{{ proxmox_api_host }}"
+    api_user: "{{ proxmox_api_user }}"
+    api_token_id: "{{ proxmox_api_token_id }}"
+    api_token_secret: "{{ proxmox_api_token_secret }}"
+    node: "{{ item.node }}"
+    hostname: "{{ item.hostname }}"
+    state: absent
+  loop: "{{ proxmox_container }}"
