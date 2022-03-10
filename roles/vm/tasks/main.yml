@@ -22,7 +22,7 @@
   delay: 3
   register: vm
   until: vm.vmid is defined
-  loop: '{{ pve_kvm }}'
+  loop: '{{ proxmox_vm }}'
 
 - name: start VM
   community.general.proxmox_kvm:
@@ -37,4 +37,4 @@
   delay: 3
   register: vm
   until: vm.vmid is defined
-  loop: '{{ pve_kvm }}'
+  loop: '{{ proxmox_vm }}'
