@@ -8,17 +8,16 @@ in the list defines one VM.
 
 Example for a VM:
 
-	proxmox_vm:
-	  - name: "some_name"
-		vmid: 1001
-		node: vn-c003
-		net:
-		  net0: virtio=12:49:34:41:21:11,bridge=vmbr0,tag=99
-		cores: 4
-		memory: 8192
-		virtio:
-		  virtio0: vm-storage:64
-		  virtio1: vm-storage:128
+  pve_kvm:
+    - name: "clockwork1-dev"
+      vmid: 1001
+      node: vn-b001
+      net:
+        net0: virtio=42:49:54:11:01:00,bridge=vmbr0,tag=2
+      cores: 4
+      memory: 8192
+      virtio:
+        virtio0: vm-storage:64
 
 To authenticate to the REST API of your Proxmox VE cluster, you first need to
 create an [API token][pve_api_tokens], then you must define the 4 **mandatory**
