@@ -7,13 +7,12 @@ ressources to existing HA Groups.
 
 Example:
 
-	---
-	proxmox_ha_resources:
-	  - group: "HA_all"
-		sid: "vm:110"
-	  - group: "HA_vn-c"
-		sid: "vm:108"
-
+    ---
+    proxmox_ha_resources:
+      - group: "HA_all"
+        sid: "vm:110"
+      - group: "HA_vn-c"
+        sid: "vm:108"
 
 This role DOES NOT creates the HA Groups ! You must create them yourself.
 
