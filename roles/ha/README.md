@@ -10,9 +10,13 @@ Example:
     ---
     proxmox_ha_resources:
       - group: "HA_all"
-        sid: "vm:110"
-      - group: "HA_vn-c"
-        sid: "vm:108"
+        members:
+          - "vm:110"
+          - "vm:108"
+      - group: "HA_vn-b"
+        members:
+          - "ct:200"
+          - "ct:202"
 
 This role DOES NOT creates the HA Groups ! You must create them yourself.
 

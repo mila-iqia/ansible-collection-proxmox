@@ -6,9 +6,9 @@
     body_format: json
     status_code: [200]
     return_content: true
-    validate_certs: no
+    validate_certs: "{{ proxmox_api_validate_certs }}"
     headers:
       Authorization: "PVEAPIToken={{ proxmox_api_user }}!{{ proxmox_api_token_id }}={{ proxmox_api_token_secret }}"
       Content-Type: application/json
-    body: '{"sid":"{{ item.sid }}","group":"{{ item.group }}"}'
-  loop: "{{ proxmox_ha_resources }}"
+    body: '{"sid":"{{ item.1 }}","group":"{{ item.0.group }}"}'
+  loop: "{{ proxmox_ha_resources | subelements('members') }}"
