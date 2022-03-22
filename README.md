@@ -20,3 +20,4 @@ The below requirements are needed on the host that executes this collection:
 
 * [container](roles/container/README.md)
 * [vm](roles/vm/README.md)
+* [ha](roles/ha/README.md)
