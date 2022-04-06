@@ -19,5 +19,6 @@ The below requirements are needed on the host that executes this collection:
 ## Roles
 
 * [container](roles/container/README.md)
-* [vm](roles/vm/README.md)
 * [ha](roles/ha/README.md)
+* [patch](roles/patch/README.md)
+* [vm](roles/vm/README.md)

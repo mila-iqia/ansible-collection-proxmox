@@ -1,0 +1,25 @@
+From a2167a468cccf1797b38509d5c3994ea245bc6c3 Mon Sep 17 00:00:00 2001
+From: Bruno Travouillon <devel@travouillon.fr>
+Date: Mon, 17 Jan 2022 11:03:28 -0500
+Subject: [PATCH] Allow tokens root@pam to modify ct config
+
+---
+ src/PVE/LXC.pm | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/PVE/LXC.pm b/src/PVE/LXC.pm
+index b07d986..83294ca 100644
+--- a/src/PVE/LXC.pm
++++ b/src/PVE/LXC.pm
+@@ -1254,7 +1254,7 @@ sub template_create {
+ sub check_ct_modify_config_perm {
+     my ($rpcenv, $authuser, $vmid, $pool, $oldconf, $newconf, $delete, $unprivileged) = @_;
+
+-    return 1 if $authuser eq 'root@pam';
++    return 1 if (substr($authuser, 0, 8)) eq 'root@pam';
+     my $storage_cfg = PVE::Storage::config();
+
+     my $check = sub {
+--
+2.30.2
+
