@@ -18,6 +18,7 @@
     cores: '{{ item.cores }}'
     memory: '{{ item.memory }}'
     virtio: '{{ item.virtio }}'
+    hostpci: '{{ item.hostpci | default(omit) }}'
   retries: 10
   delay: 3
   register: vm
