@@ -1,0 +1,20 @@
+---
+- name: Ensure patch is installed
+  ansible.builtin.package:
+    name: patch
+
+- name: Patch https://bugzilla.proxmox.com/show_bug.cgi?id=3829
+  ansible.posix.patch:
+    src: '3829-Allow-tokens-root-pam-to-modify-ct-config.patch'
+    basedir: '/usr/share/perl5'
+    strip: 2
+  notify: Restart pvedaemon.service
+  when: proxmox_patch_3829
+
+- name: Patch https://bugzilla.proxmox.com/show_bug.cgi?id=3829
+  ansible.posix.patch:
+    src: '3829-Allow-tokens-root-pam-to-modify-vm-config.patch'
+    basedir: '/usr/share/perl5'
+    strip: 1
+  notify: Restart pvedaemon.service
+  when: proxmox_patch_3829
