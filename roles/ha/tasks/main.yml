@@ -1,5 +1,5 @@
 ---
-- name: Get HA ressources from PVE
+- name: Get HA resources from PVE
   ansible.builtin.uri:
     url: https://{{ proxmox_api_host }}:8006/api2/json/cluster/ha/resources
     method: GET
@@ -8,9 +8,9 @@
     headers:
       Authorization: "PVEAPIToken={{ proxmox_api_user }}!{{ proxmox_api_token_id }}={{ proxmox_api_token_secret }}"
       Content-Type: application/json
-  register: ressources
+  register: resources
 
-- name: Assign ressources to HA Group
+- name: Assign resources to HA Group
   ansible.builtin.uri:
     url: "https://{{ proxmox_api_host }}:8006/api2/json/cluster/ha/resources"
     method: POST
@@ -25,4 +25,4 @@
   loop: "{{ proxmox_ha_resources | subelements('members') }}"
   vars:
     jmesquery: '[].sid'
-  when: item.1 not in ( ressources.json.data | json_query(jmesquery) | list )
+  when: item.1 not in ( resources.json.data | json_query(jmesquery) | list )
