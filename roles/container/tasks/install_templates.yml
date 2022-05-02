@@ -15,4 +15,5 @@
     content_type: "{{ item.1 | regex_search(_ostemplate_regex, '\\2') | first }}"
     template: "{{ item.1 | regex_search(_ostemplate_regex, '\\3') | first }}"
     timeout: 300
+    validate_certs: "{{ proxmox_api_validate_certs }}"
   loop: "{{ groups[pve_group] | product(_list_of_templates) | list }}"

@@ -58,6 +58,11 @@ In the example above, `item.api_user` and `item.api_token_secret` will
 respectively replace the values of `proxmox_api_user` and
 `proxmox_api_token_secret`.
 
+By default, the proxmox modules in `community.general` do not validate SSL
+certs. To enable certificate validation, define the variable:
+
+ - `proxmox_api_validate_certs: true`
+
 The example below creates two containers that will serve as DHCP servers. The
 configuration of the DHCP service is not managed by this role. The variable
 `proxmox_container_dhcp` is defined as a play variable. It is then passed to
