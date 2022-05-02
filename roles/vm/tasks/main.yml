@@ -19,6 +19,7 @@
     memory: '{{ item.memory }}'
     virtio: '{{ item.virtio }}'
     hostpci: '{{ item.hostpci | default(omit) }}'
+    validate_certs: "{{ proxmox_api_validate_certs }}"
   retries: 10
   delay: 3
   register: vm
@@ -34,6 +35,7 @@
     node: '{{ item.node }}'
     name: '{{ item.name }}'
     state: started
+    validate_certs: "{{ proxmox_api_validate_certs }}"
   retries: 10
   delay: 3
   register: vm
