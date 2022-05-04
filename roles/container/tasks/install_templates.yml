@@ -1,8 +1,20 @@
 ---
+- name: Get list of nodes members of the Proxmox cluster
+  ansible.builtin.uri:
+    url: https://{{ proxmox_api_host }}:8006/api2/json/nodes
+    method: GET
+    status_code: [200]
+    validate_certs: "{{ proxmox_api_validate_certs }}"
+    headers:
+      Authorization: "PVEAPIToken={{ proxmox_api_user }}!{{ proxmox_api_token_id }}={{ proxmox_api_token_secret }}"
+      Content-Type: application/json
+  register: _nodes_results
+
 - name: Set facts to install OS templates
   ansible.builtin.set_fact:
-    _ostemplate_regex: '^([a-z]+):([a-z]+)/(.*)'
     _list_of_templates: "{{ proxmox_container | community.general.json_query('[*].ostemplate') | unique }}"
+    _nodes: "{{_nodes_results | community.general.json_query('json.data[*].node') }}"
+    _ostemplate_regex: '^([a-z]+):([a-z]+)/(.*)'
 
 - name: Download proxmox appliance container templates
   community.general.proxmox_template:
@@ -16,4 +28,4 @@
     template: "{{ item.1 | regex_search(_ostemplate_regex, '\\3') | first }}"
     timeout: 300
     validate_certs: "{{ proxmox_api_validate_certs }}"
-  loop: "{{ groups[pve_group] | product(_list_of_templates) | list }}"
+  loop: "{{ _nodes | product(_list_of_templates) | list }}"
