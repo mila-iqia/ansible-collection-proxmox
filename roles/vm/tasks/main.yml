@@ -11,6 +11,8 @@
     api_token_id: "{{ proxmox_api_token_id }}"
     api_token_secret: "{{ proxmox_api_token_secret }}"
     api_user: "{{ proxmox_api_user }}"
+    boot: "{{ item.boot | default(omit) }}"
+    bootdisk: "{{ item.bootdisk | default(omit) }}"
     cores: "{{ item.cores }}"
     cpu: "{{ item.cpu | default(omit) }}"
     hostpci: "{{ item.hostpci | default(omit) }}"
