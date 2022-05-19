@@ -7,38 +7,42 @@
 
 - name: Create VM
   community.general.proxmox_kvm:
-    api_user: '{{ proxmox_api_user }}'
-    api_token_id: '{{ proxmox_api_token_id }}'
-    api_token_secret: '{{ proxmox_api_token_secret }}'
-    api_host: '{{ proxmox_api_host }}'
-    node: '{{ item.node }}'
-    name: '{{ item.name }}'
-    vmid: '{{ item.vmid }}'
-    net: '{{ item.net }}'
-    cores: '{{ item.cores }}'
-    memory: '{{ item.memory }}'
-    virtio: '{{ item.virtio }}'
-    hostpci: '{{ item.hostpci | default(omit) }}'
-    cpu: '{{ item.cpu | default(omit) }}'
+    api_host: "{{ proxmox_api_host }}"
+    api_token_id: "{{ proxmox_api_token_id }}"
+    api_token_secret: "{{ proxmox_api_token_secret }}"
+    api_user: "{{ proxmox_api_user }}"
+    boot: "{{ item.boot | default(omit) }}"
+    bootdisk: "{{ item.bootdisk | default(omit) }}"
+    cores: "{{ item.cores }}"
+    cpu: "{{ item.cpu | default(omit) }}"
+    hostpci: "{{ item.hostpci | default(omit) }}"
+    memory: "{{ item.memory }}"
+    name: "{{ item.name }}"
+    net: "{{ item.net }}"
+    node: "{{ item.node }}"
+    scsi: "{{ item.scsi | default(omit) }}"
+    scsihw: "{{ item.scsihw | default(omit) }}"
     validate_certs: "{{ proxmox_api_validate_certs }}"
+    virtio: "{{ item.virtio | default(omit) }}"
+    vmid: "{{ item.vmid }}"
   retries: 10
   delay: 3
   register: vm
   until: vm.vmid is defined
-  loop: '{{ proxmox_vm }}'
+  loop: "{{ proxmox_vm }}"
 
 - name: start VM
   community.general.proxmox_kvm:
-    api_user: '{{ proxmox_api_user }}'
-    api_token_id: '{{ proxmox_api_token_id }}'
-    api_token_secret: '{{ proxmox_api_token_secret }}'
-    api_host: '{{ proxmox_api_host }}'
-    node: '{{ item.node }}'
-    name: '{{ item.name }}'
+    api_host: "{{ proxmox_api_host }}"
+    api_token_id: "{{ proxmox_api_token_id }}"
+    api_token_secret: "{{ proxmox_api_token_secret }}"
+    api_user: "{{ proxmox_api_user }}"
+    name: "{{ item.name }}"
+    node: "{{ item.node }}"
     state: started
     validate_certs: "{{ proxmox_api_validate_certs }}"
   retries: 10
   delay: 3
   register: vm
   until: vm.vmid is defined
-  loop: '{{ proxmox_vm }}'
+  loop: "{{ proxmox_vm }}"
