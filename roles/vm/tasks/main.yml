@@ -1,11 +1,7 @@
 ---
 # VM Creation testings.
-# Missing: reclaim option on disk, HA settings
 
-# TODO
-# - Add the VM to the target HA Group
-
-- name: Create VM
+- name: Create / Update VM
   community.general.proxmox_kvm:
     api_host: "{{ proxmox_api_host }}"
     api_token_id: "{{ proxmox_api_token_id }}"
@@ -22,6 +18,7 @@
     node: "{{ item.node }}"
     scsi: "{{ item.scsi | default(omit) }}"
     scsihw: "{{ item.scsihw | default(omit) }}"
+    update: "{{ item.update | default(omit) }}"
     validate_certs: "{{ proxmox_api_validate_certs }}"
     virtio: "{{ item.virtio | default(omit) }}"
     vmid: "{{ item.vmid }}"
