@@ -11,7 +11,6 @@
     state: stopped
     validate_certs: "{{ proxmox_api_validate_certs }}"
   loop: "{{ proxmox_container }}"
-  notify: Pause for 20 seconds to finish LXC setup
 
 - name: Destroy Containers
   community.general.proxmox:
