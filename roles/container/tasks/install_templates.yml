@@ -14,7 +14,7 @@
   ansible.builtin.set_fact:
     _list_of_templates: "{{ proxmox_container | community.general.json_query('[*].ostemplate') | unique }}"
     _nodes: "{{_nodes_results | community.general.json_query('json.data[*].node') }}"
-    _ostemplate_regex: '^([a-z]+):([a-z]+)/(.*)'
+    _ostemplate_regex: '^([-a-z]+):([a-z]+)/(.*)'
 
 - name: Download proxmox appliance container templates
   community.general.proxmox_template:
