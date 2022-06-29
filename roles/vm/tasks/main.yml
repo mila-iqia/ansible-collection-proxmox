@@ -18,7 +18,7 @@
     node: "{{ item.node }}"
     scsi: "{{ item.scsi | default(omit) }}"
     scsihw: "{{ item.scsihw | default(omit) }}"
-    update: "{{ item.update | default(omit) }}"
+    update: "{{ item.refresh | default(omit) }}"  # do NOT use item.update ! Seen as python method from ansible POV
     validate_certs: "{{ proxmox_api_validate_certs }}"
     virtio: "{{ item.virtio | default(omit) }}"
     vmid: "{{ item.vmid }}"
