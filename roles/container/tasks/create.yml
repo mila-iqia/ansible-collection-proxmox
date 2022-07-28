@@ -16,6 +16,7 @@
     hookscript: "{{ item.hookscript | default(omit) }}"
     hostname: "{{ item.hostname }}"
     memory: "{{ item.memory | default(512) }}"
+    mounts: "{{ item.mounts | default(omit) }}"
     nameserver: "{{ item.nameserver | default(omit) }}"
     # Remember to create bridge first on hypervisor
     # https://pve.proxmox.com/wiki/Install_Proxmox_VE_on_Debian_11_Bullseye#Create_a_Linux_Bridge
