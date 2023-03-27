@@ -34,3 +34,7 @@ By default, the proxmox modules in `community.general` do not validate SSL
 certs. To enable certificate validation, define the variable:
 
  - `proxmox_api_validate_certs: true`
+
+To enable update of VMs with new values:
+
+ - `proxmox_kvm_update: true`

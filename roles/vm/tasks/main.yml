@@ -17,7 +17,12 @@
     scsi: "{{ item.scsi | default(omit) }}"
     scsihw: "{{ item.scsihw | default(omit) }}"
     tags: "{{ item.tags | default(omit) }}"
-    update: "{{ item.refresh | default(omit) }}"
+    update: "
+      {% if 'update' in item %}
+      {{ item['update'] }}
+      {% else %}
+      {{ proxmox_kvm_update }}
+      {% endif %}"
     validate_certs: "{{ proxmox_api_validate_certs }}"
     virtio: "{{ item.virtio | default(omit) }}"
     vmid: "{{ item.vmid }}"
