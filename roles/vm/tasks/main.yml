@@ -1,7 +1,5 @@
 ---
-# VM Creation testings.
-
-- name: Create / Update VM
+- name: Setup VM
   community.general.proxmox_kvm:
     api_host: "{{ proxmox_api_host }}"
     api_token_id: "{{ proxmox_api_token_id }}"
@@ -18,17 +16,19 @@
     node: "{{ item.node }}"
     scsi: "{{ item.scsi | default(omit) }}"
     scsihw: "{{ item.scsihw | default(omit) }}"
+    tags: "{{ item.tags | default(omit) }}"
     update: "{{ item.refresh | default(omit) }}"
     validate_certs: "{{ proxmox_api_validate_certs }}"
     virtio: "{{ item.virtio | default(omit) }}"
     vmid: "{{ item.vmid }}"
+  when: not ansible_check_mode
   retries: 10
   delay: 3
   register: vm
   until: vm.vmid is defined
   loop: "{{ proxmox_vm }}"
 
-- name: start VM
+- name: Start VM
   community.general.proxmox_kvm:
     api_host: "{{ proxmox_api_host }}"
     api_token_id: "{{ proxmox_api_token_id }}"
@@ -38,6 +38,7 @@
     node: "{{ item.node }}"
     state: started
     validate_certs: "{{ proxmox_api_validate_certs }}"
+  when: not ansible_check_mode
   retries: 10
   delay: 3
   register: vm
