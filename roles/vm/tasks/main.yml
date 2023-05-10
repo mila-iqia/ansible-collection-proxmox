@@ -15,6 +15,7 @@
     name: "{{ item.name }}"
     net: "{{ item.net }}"
     node: "{{ item.node }}"
+    onboot: "{{ item.onboot | default(omit) }}"
     scsi: "{{ item.scsi | default(omit) }}"
     scsihw: "{{ item.scsihw | default(omit) }}"
     tags: "{{ item.tags | default(omit) }}"
