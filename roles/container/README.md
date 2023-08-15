@@ -27,8 +27,7 @@ all hosts.
 Most of the parameters supported by the module `community.general.proxmox` can
 be defined in the list. The following parameters are not supported yet, but
 this might change in future development: `api_password`, `ip_address`, 
-`password`, `pool`, `purge`, `searchdomain` and `storage`. Note that
-`proxmox_default_behavior` is enforced to `no_defaults`.
+`password`, `pool`, `purge`, `searchdomain` and `storage`.
 
 To authenticate to the REST API of your Proxmox VE cluster, you first need to
 create an [API token][pve_api_tokens], then you must define the 4 **mandatory**
