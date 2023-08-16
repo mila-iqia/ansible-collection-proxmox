@@ -1,7 +1,6 @@
 ---
 - name: Setup LXC Containers
   community.general.proxmox:
-    proxmox_default_behavior: 'no_defaults'
     api_host: "{{ proxmox_api_host }}"
     api_token_id: "{{ item.api_token_id | default(proxmox_api_token_id) }}"
     api_token_secret: "{{ item.api_token_secret | default(proxmox_api_token_secret) }}"
@@ -35,7 +34,6 @@
 
 - name: Start Containers
   community.general.proxmox:
-    proxmox_default_behavior: 'no_defaults'
     api_host: "{{ proxmox_api_host }}"
     api_user: "{{ proxmox_api_user }}"
     api_token_id: "{{ proxmox_api_token_id }}"
