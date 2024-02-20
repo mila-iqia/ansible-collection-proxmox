@@ -5,3 +5,6 @@
 # certs. Make this a default for use with other modules like
 # `ansible.builtin.uri` (used for API calls)
 proxmox_api_validate_certs: false
+
+# Do not update the container when proxmox runs
+proxmox_container_update: false
