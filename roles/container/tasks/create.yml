@@ -28,6 +28,12 @@
     swap: "{{ item.swap | default(0) }}"
     timeout: "{{ item.timeout | default(120) }}"
     unprivileged: "{{ item.unprivileged | default(omit) }}"
+    update: "
+      {% if 'update' in item %}
+      {{ item['update'] }}
+      {% else %}
+      {{ proxmox_container_update }}
+      {% endif %}"
     validate_certs: "{{ item.validate_certs | default(proxmox_api_validate_certs) | bool }}"
     vmid: "{{ item.vmid | default(omit) }}"
   loop: "{{ proxmox_container }}"

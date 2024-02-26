@@ -134,3 +134,7 @@ role `mila.proxmox.container` in the pre_tasks of your playbook, with
 In the example above, ansible-playbook must run with `-e
 proxmox_container_destroy_first=True` for the destruction of the containers to
 be effective.
+
+To enable update of LXC containers with new values:
+
+ - `proxmox_container_update: true`
