@@ -28,6 +28,37 @@
     swap: "{{ item.swap | default(0) }}"
     timeout: "{{ item.timeout | default(120) }}"
     unprivileged: "{{ item.unprivileged | default(omit) }}"
+    validate_certs: "{{ item.validate_certs | default(proxmox_api_validate_certs) | bool }}"
+    vmid: "{{ item.vmid | default(omit) }}"
+  loop: "{{ proxmox_container }}"
+
+  # ostemplate and update are mutually exclusive
+- name: Update LXC Containers
+  community.general.proxmox:
+    api_host: "{{ proxmox_api_host }}"
+    api_token_id: "{{ item.api_token_id | default(proxmox_api_token_id) }}"
+    api_token_secret: "{{ item.api_token_secret | default(proxmox_api_token_secret) }}"
+    api_user: "{{ item.api_user | default(proxmox_api_user) }}"
+    cores: "{{ item.cores | default(1) }}"
+    cpus: "{{ item.cpus | default(1)  }}"
+    cpuunits: "{{ item.cpuunits | default(1000)  }}"
+    description: "{{ item.description | default(omit)  }}"
+    disk: "{{ item.disk }}"
+    features: "{{ item.features | default(omit) }}"
+    force: "{{ item.force | default(omit) | bool }}"
+    hookscript: "{{ item.hookscript | default(omit) }}"
+    hostname: "{{ item.hostname }}"
+    memory: "{{ item.memory | default(512) }}"
+    mounts: "{{ item.mounts | default(omit) }}"
+    nameserver: "{{ item.nameserver | default(omit) }}"
+    netif: "{{ item.netif }}"
+    node: "{{ item.node }}"
+    onboot: "{{ item.onboot | default(False) }}"
+    pubkey: "{{ item.pubkey | default(proxmox_pubkey) | default(omit) }}"
+    state: "{{ item.state | default('present') }}"
+    swap: "{{ item.swap | default(0) }}"
+    timeout: "{{ item.timeout | default(120) }}"
+    unprivileged: "{{ item.unprivileged | default(omit) }}"
     update: "
       {% if 'update' in item %}
       {{ item['update'] }}
