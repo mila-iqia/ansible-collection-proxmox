@@ -8,7 +8,7 @@ namespace: mila
 name: proxmox
 
 # The version of the collection. Must be compatible with semantic versioning
-version: 0.5.3
+version: 0.5.4
 
 # The path to the Markdown (.md) readme file. This path is relative to the root of the collection
 readme: README.md
@@ -44,7 +44,7 @@ tags:
 # collection label 'namespace.name'. The value is a version range
 # L(specifiers,https://python-semanticversion.readthedocs.io/en/latest/#requirement-specification). Multiple version
 # range specifiers can be set and are separated by ','
-dependencies: {community.general: '>4.0.0'}
+dependencies: {community.general: '>=8.1.0'}
 
 # The URL of the originating SCM repository
 repository: https://github.com/mila-iqia/ansible-collection-proxmox
