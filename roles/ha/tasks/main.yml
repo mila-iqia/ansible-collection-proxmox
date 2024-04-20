@@ -1,28 +1,31 @@
 ---
-- name: Get HA resources from PVE
-  ansible.builtin.uri:
-    url: https://{{ proxmox_api_host }}:8006/api2/json/cluster/ha/resources
-    method: GET
-    status_code: [200]
-    validate_certs: "{{ proxmox_api_validate_certs }}"
-    headers:
-      Authorization: "PVEAPIToken={{ proxmox_api_user }}!{{ proxmox_api_token_id }}={{ proxmox_api_token_secret }}"
-      Content-Type: application/json
-  register: resources
+- name: Assign new resources to HA Group
+  run_once: true
+  block:
+    - name: Get HA resources from PVE
+      ansible.builtin.uri:
+        url: https://{{ proxmox_api_host }}:8006/api2/json/cluster/ha/resources
+        method: GET
+        status_code: [200]
+        validate_certs: "{{ proxmox_api_validate_certs }}"
+        headers:
+          Authorization: "PVEAPIToken={{ proxmox_api_user }}!{{ proxmox_api_token_id }}={{ proxmox_api_token_secret }}"
+          Content-Type: application/json
+      register: resources
 
-- name: Assign resources to HA Group
-  ansible.builtin.uri:
-    url: "https://{{ proxmox_api_host }}:8006/api2/json/cluster/ha/resources"
-    method: POST
-    body_format: json
-    status_code: [200]
-    return_content: true
-    validate_certs: "{{ proxmox_api_validate_certs }}"
-    headers:
-      Authorization: "PVEAPIToken={{ proxmox_api_user }}!{{ proxmox_api_token_id }}={{ proxmox_api_token_secret }}"
-      Content-Type: application/json
-    body: '{"sid":"{{ item.1 }}","group":"{{ item.0.group }}"}'
-  loop: "{{ proxmox_ha_resources | subelements('members') }}"
-  vars:
-    jmesquery: '[].sid'
-  when: item.1 not in ( resources.json.data | json_query(jmesquery) | list )
+    - name: Assign resources to HA Group
+      ansible.builtin.uri:
+        url: "https://{{ proxmox_api_host }}:8006/api2/json/cluster/ha/resources"
+        method: POST
+        body_format: json
+        status_code: [200]
+        return_content: true
+        validate_certs: "{{ proxmox_api_validate_certs }}"
+        headers:
+          Authorization: "PVEAPIToken={{ proxmox_api_user }}!{{ proxmox_api_token_id }}={{ proxmox_api_token_secret }}"
+          Content-Type: application/json
+        body: '{"sid":"{{ item.1 }}","group":"{{ item.0.group }}"}'
+      loop: "{{ proxmox_ha_resources | subelements('members') }}"
+      vars:
+        jmesquery: '[].sid'
+      when: item.1 not in ( resources.json.data | json_query(jmesquery) | list )
