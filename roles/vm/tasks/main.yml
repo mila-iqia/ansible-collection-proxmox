@@ -25,7 +25,6 @@
     description: "{{ item.description | default(omit)  }}"
     digest: "{{ item.digest | default(omit)  }}"
     efidisk0: "{{ item.efidisk0 | default(omit)  }}"
-    force: "{{ item.force | default(omit) | bool }}"
     format: "{{ item.format | default(omit) }}"
     freeze: "{{ item.freeze | default(omit) }}"
     full: "{{ item.full | default(omit) }}"
