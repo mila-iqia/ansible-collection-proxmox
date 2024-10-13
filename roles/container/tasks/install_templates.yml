@@ -8,13 +8,13 @@
     headers:
       Authorization: "PVEAPIToken={{ proxmox_api_user }}!{{ proxmox_api_token_id }}={{ proxmox_api_token_secret }}"
       Content-Type: application/json
-  register: _nodes_results
+  register: __nodes_results
 
 - name: Set facts to install OS templates
   ansible.builtin.set_fact:
-    _list_of_templates: "{{ proxmox_container | community.general.json_query('[*].ostemplate') | unique }}"
-    _nodes: "{{_nodes_results | community.general.json_query('json.data[*].node') }}"
-    _ostemplate_regex: '^([-a-z]+):([a-z]+)/(.*)'
+    __list_of_templates: "{{ proxmox_container | community.general.json_query('[*].ostemplate') | unique }}"
+    __nodes: "{{ __nodes_results | community.general.json_query('json.data[*].node') }}"
+    __ostemplate_regex: '^([-a-z0-9]+):([a-z]+)/(.*)'
 
 - name: Download proxmox appliance container templates
   community.general.proxmox_template:
@@ -23,9 +23,9 @@
     api_token_id: "{{ proxmox_api_token_id }}"
     api_token_secret: "{{ proxmox_api_token_secret }}"
     node: "{{ item.0 }}"
-    storage: "{{ item.1 | regex_search(_ostemplate_regex, '\\1') | first }}"
-    content_type: "{{ item.1 | regex_search(_ostemplate_regex, '\\2') | first }}"
-    template: "{{ item.1 | regex_search(_ostemplate_regex, '\\3') | first }}"
+    storage: "{{ item.1 | regex_search(__ostemplate_regex, '\\1') | first }}"
+    content_type: "{{ item.1 | regex_search(__ostemplate_regex, '\\2') | first }}"
+    template: "{{ item.1 | regex_search(__ostemplate_regex, '\\3') | first }}"
     timeout: 300
     validate_certs: "{{ proxmox_api_validate_certs }}"
-  loop: "{{ _nodes | product(_list_of_templates) | list }}"
+  loop: "{{ __nodes | product(__list_of_templates) | list }}"
