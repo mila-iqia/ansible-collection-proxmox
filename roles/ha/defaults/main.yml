@@ -5,3 +5,15 @@
 # certs. Make this a default for use with other modules like
 # `ansible.builtin.uri` (used for API calls)
 proxmox_api_validate_certs: false
+
+# Assign members to HA groups
+# proxmox_ha_resources:
+#      - group: "HA_all"
+#        members:
+#          - "vm:110"
+#          - "vm:108"
+#      - group: "HA_vn-b"
+#        members:
+#          - "ct:200"
+#          - "ct:202"
+proxmox_ha_resources: []
