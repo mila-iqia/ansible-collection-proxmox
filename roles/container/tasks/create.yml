@@ -30,6 +30,7 @@
     unprivileged: "{{ item.unprivileged | default(omit) }}"
     validate_certs: "{{ item.validate_certs | default(proxmox_api_validate_certs) | bool }}"
     vmid: "{{ item.vmid | default(omit) }}"
+    password: "{{ item.password | default(omit) }}"
   loop: "{{ proxmox_container }}"
 
   # ostemplate and update are mutually exclusive
