@@ -23,6 +23,7 @@
     node: "{{ item.node }}"
     onboot: "{{ item.onboot | default(False) }}"
     ostemplate: "{{ item.ostemplate }}"
+    password: "{{ item.password | default(omit) }}"
     pubkey: "{{ item.pubkey | default(proxmox_pubkey) | default(omit) }}"
     state: "{{ item.state | default('present') }}"
     swap: "{{ item.swap | default(0) }}"
@@ -30,7 +31,6 @@
     unprivileged: "{{ item.unprivileged | default(omit) }}"
     validate_certs: "{{ item.validate_certs | default(proxmox_api_validate_certs) | bool }}"
     vmid: "{{ item.vmid | default(omit) }}"
-    password: "{{ item.password | default(omit) }}"
   loop: "{{ proxmox_container }}"
 
   # ostemplate and update are mutually exclusive
