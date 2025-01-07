@@ -23,6 +23,7 @@
     node: "{{ item.node }}"
     onboot: "{{ item.onboot | default(False) }}"
     ostemplate: "{{ item.ostemplate }}"
+    password: "{{ item.password | default(omit) }}"
     pubkey: "{{ item.pubkey | default(proxmox_pubkey) | default(omit) }}"
     state: "{{ item.state | default('present') }}"
     swap: "{{ item.swap | default(0) }}"
