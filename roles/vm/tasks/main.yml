@@ -87,7 +87,7 @@
     api_user: "{{ proxmox_api_user }}"
     name: "{{ item.name }}"
     node: "{{ item.node }}"
-    state: started
+    state: "{{ item.state | default('started') }}"
     validate_certs: "{{ proxmox_api_validate_certs }}"
   when: not ansible_check_mode
   retries: 10
