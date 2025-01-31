@@ -79,7 +79,7 @@
   until: vm.vmid is defined
   loop: "{{ proxmox_vm }}"
 
-- name: Start VM
+- name: Manage VM state
   community.general.proxmox_kvm:
     api_host: "{{ proxmox_api_host }}"
     api_token_id: "{{ proxmox_api_token_id }}"
