@@ -70,7 +70,7 @@
     vmid: "{{ item.vmid | default(omit) }}"
   loop: "{{ proxmox_container }}"
 
-- name: Start Containers
+- name: Manage Containers state
   community.general.proxmox:
     api_host: "{{ proxmox_api_host }}"
     api_user: "{{ proxmox_api_user }}"
@@ -78,5 +78,5 @@
     api_token_secret: "{{ proxmox_api_token_secret }}"
     node: "{{ item.node }}"
     hostname: "{{ item.hostname }}"
-    state: started
+    state: "{{ item.state | default('started') }}"
   loop: "{{ proxmox_container }}"
