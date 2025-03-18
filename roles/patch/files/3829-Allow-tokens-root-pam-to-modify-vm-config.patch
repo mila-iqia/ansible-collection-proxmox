@@ -1,43 +1,49 @@
-From 6e39e66e682a5364a9255f67f525ba20acca729f Mon Sep 17 00:00:00 2001
-From: Bruno Travouillon <bruno.travouillon@mila.quebec>
-Date: Tue, 19 Apr 2022 12:17:32 -0400
-Subject: [PATCH] Allow tokens root@pam to modify vm config
-
----
- PVE/API2/Qemu.pm | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
 diff --git a/PVE/API2/Qemu.pm b/PVE/API2/Qemu.pm
-index 3af2132..c6bde5f 100644
+index ccc379f5..156b1c7b 100644
 --- a/PVE/API2/Qemu.pm
 +++ b/PVE/API2/Qemu.pm
-@@ -549,7 +549,7 @@ my $cloudinitoptions = {
+@@ -721,7 +721,7 @@ my $cloudinitoptions = {
  my $check_vm_create_serial_perm = sub {
      my ($rpcenv, $authuser, $vmid, $pool, $param) = @_;
-
--    return 1 if $authuser eq 'root@pam';
-+    return 1 if (substr($authuser, 0, 8)) eq 'root@pam';
-
+ 
+-    return 1 if (substr($authuser, 0, 8)) eq 'root@pam';
++    return 1 if $authuser eq 'root@pam';
+ 
      foreach my $opt (keys %{$param}) {
- 	next if $opt !~ m/^serial\d+$/;
-@@ -567,7 +567,7 @@ my $check_vm_create_serial_perm = sub {
- my $check_vm_create_usb_perm = sub {
+        next if $opt !~ m/^serial\d+$/;
+@@ -762,7 +762,7 @@ my sub check_usb_perm {
+ my sub check_vm_create_usb_perm {
      my ($rpcenv, $authuser, $vmid, $pool, $param) = @_;
-
--    return 1 if $authuser eq 'root@pam';
-+    return 1 if (substr($authuser, 0, 8)) eq 'root@pam';
-
+ 
+-    return 1 if (substr($authuser, 0, 8)) eq 'root@pam';
++    return 1 if $authuser eq 'root@pam';
+ 
      foreach my $opt (keys %{$param}) {
- 	next if $opt !~ m/^usb\d+$/;
-@@ -585,7 +585,7 @@ my $check_vm_create_usb_perm = sub {
+        next if $opt !~ m/^usb\d+$/;
+@@ -775,7 +775,7 @@ my sub check_vm_create_usb_perm {
+ my sub check_hostpci_perm {
+     my ($rpcenv, $authuser, $vmid, $pool, $opt, $value) = @_;
+ 
+-    return 1 if (substr($authuser, 0, 8)) eq 'root@pam';
++    return 1 if $authuser eq 'root@pam';
+ 
+     my $device = PVE::JSONSchema::parse_property_string('pve-qm-hostpci', $value);
+     if ($device->{host}) {
+@@ -793,7 +793,7 @@ my sub check_hostpci_perm {
+ my sub check_vm_create_hostpci_perm {
+     my ($rpcenv, $authuser, $vmid, $pool, $param) = @_;
+ 
+-    return 1 if (substr($authuser, 0, 8)) eq 'root@pam';
++    return 1 if $authuser eq 'root@pam';
+ 
+     foreach my $opt (keys %{$param}) {
+        next if $opt !~ m/^hostpci\d+$/;
+@@ -806,7 +806,7 @@ my sub check_vm_create_hostpci_perm {
  my $check_vm_modify_config_perm = sub {
      my ($rpcenv, $authuser, $vmid, $pool, $key_list) = @_;
-
--    return 1 if $authuser eq 'root@pam';
-+    return 1 if (substr($authuser, 0, 8)) eq 'root@pam';
-
+ 
+-    return 1 if (substr($authuser, 0, 8)) eq 'root@pam';
++    return 1 if $authuser eq 'root@pam';
+ 
      foreach my $opt (@$key_list) {
- 	# some checks (e.g., disk, serial port, usb) need to be done somewhere
---
-2.30.2
-
+        # some checks (e.g., disk, serial port, usb) need to be done somewhere
