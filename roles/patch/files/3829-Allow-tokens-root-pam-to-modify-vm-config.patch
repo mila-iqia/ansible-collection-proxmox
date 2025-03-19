@@ -1,13 +1,16 @@
+ PVE/API2/Qemu.pm | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
 diff --git a/PVE/API2/Qemu.pm b/PVE/API2/Qemu.pm
-index ccc379f5..156b1c7b 100644
+index 156b1c7b..ccc379f5 100644
 --- a/PVE/API2/Qemu.pm
 +++ b/PVE/API2/Qemu.pm
 @@ -721,7 +721,7 @@ my $cloudinitoptions = {
  my $check_vm_create_serial_perm = sub {
      my ($rpcenv, $authuser, $vmid, $pool, $param) = @_;
  
--    return 1 if (substr($authuser, 0, 8)) eq 'root@pam';
-+    return 1 if $authuser eq 'root@pam';
+-    return 1 if $authuser eq 'root@pam';
++    return 1 if (substr($authuser, 0, 8)) eq 'root@pam';
  
      foreach my $opt (keys %{$param}) {
         next if $opt !~ m/^serial\d+$/;
@@ -15,8 +18,8 @@ index ccc379f5..156b1c7b 100644
  my sub check_vm_create_usb_perm {
      my ($rpcenv, $authuser, $vmid, $pool, $param) = @_;
  
--    return 1 if (substr($authuser, 0, 8)) eq 'root@pam';
-+    return 1 if $authuser eq 'root@pam';
+-    return 1 if $authuser eq 'root@pam';
++    return 1 if (substr($authuser, 0, 8)) eq 'root@pam';
  
      foreach my $opt (keys %{$param}) {
         next if $opt !~ m/^usb\d+$/;
@@ -24,8 +27,8 @@ index ccc379f5..156b1c7b 100644
  my sub check_hostpci_perm {
      my ($rpcenv, $authuser, $vmid, $pool, $opt, $value) = @_;
  
--    return 1 if (substr($authuser, 0, 8)) eq 'root@pam';
-+    return 1 if $authuser eq 'root@pam';
+-    return 1 if $authuser eq 'root@pam';
++    return 1 if (substr($authuser, 0, 8)) eq 'root@pam';
  
      my $device = PVE::JSONSchema::parse_property_string('pve-qm-hostpci', $value);
      if ($device->{host}) {
@@ -33,8 +36,8 @@ index ccc379f5..156b1c7b 100644
  my sub check_vm_create_hostpci_perm {
      my ($rpcenv, $authuser, $vmid, $pool, $param) = @_;
  
--    return 1 if (substr($authuser, 0, 8)) eq 'root@pam';
-+    return 1 if $authuser eq 'root@pam';
+-    return 1 if $authuser eq 'root@pam';
++    return 1 if (substr($authuser, 0, 8)) eq 'root@pam';
  
      foreach my $opt (keys %{$param}) {
         next if $opt !~ m/^hostpci\d+$/;
@@ -42,8 +45,8 @@ index ccc379f5..156b1c7b 100644
  my $check_vm_modify_config_perm = sub {
      my ($rpcenv, $authuser, $vmid, $pool, $key_list) = @_;
  
--    return 1 if (substr($authuser, 0, 8)) eq 'root@pam';
-+    return 1 if $authuser eq 'root@pam';
+-    return 1 if $authuser eq 'root@pam';
++    return 1 if (substr($authuser, 0, 8)) eq 'root@pam';
  
      foreach my $opt (@$key_list) {
         # some checks (e.g., disk, serial port, usb) need to be done somewhere
