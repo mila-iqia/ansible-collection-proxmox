@@ -11,7 +11,7 @@ diff --git a/src/PVE/LXC.pm b/src/PVE/LXC.pm
 index b07d986..83294ca 100644
 --- a/src/PVE/LXC.pm
 +++ b/src/PVE/LXC.pm
-@@ -1254,7 +1254,7 @@ sub template_create {
+@@ -1411,7 +1411,7 @@ sub template_create {
  sub check_ct_modify_config_perm {
      my ($rpcenv, $authuser, $vmid, $pool, $oldconf, $newconf, $delete, $unprivileged) = @_;
 
@@ -20,6 +20,15 @@ index b07d986..83294ca 100644
      my $storage_cfg = PVE::Storage::config();
 
      my $check = sub {
+@@ -1517,7 +1517,7 @@
+ sub check_bridge_access {
+     my ($rpcenv, $authuser, $raw) = @_;
+
+-    return 1 if $authuser eq 'root@pam';
++    return 1 if (substr($authuser, 0, 8)) eq 'root@pam';
+
+     my $net = PVE::LXC::Config->parse_lxc_network($raw);
+     my ($bridge, $tag, $trunks) = $net->@{'bridge', 'tag', 'trunks'};
 --
 2.30.2
 
