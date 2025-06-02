@@ -1,6 +1,7 @@
 ---
 - name: Assign new resources to HA Group
   run_once: true
+  when: not ansible_check_mode
   block:
     - name: Get HA resources from PVE
       ansible.builtin.uri:
