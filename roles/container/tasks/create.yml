@@ -46,7 +46,7 @@
     description: "{{ item.description | default(omit)  }}"
     disk: "{{ item.disk }}"
     features: "{{ item.features | default(omit) }}"
-    force: "{{ item.force | default(omit) | bool }}"
+    force: "{{ item.force | default(omit) }}"
     hookscript: "{{ item.hookscript | default(omit) }}"
     hostname: "{{ item.hostname }}"
     memory: "{{ item.memory | default(512) }}"
