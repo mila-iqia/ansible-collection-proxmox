@@ -6,3 +6,31 @@
 - name: Import tasks to create containers
   ansible.builtin.include_tasks:
     file: create.yml
+
+- name: Configure HA resources
+  community.proxmox.proxmox_cluster_ha_resources:
+    api_host: "{{ proxmox_api_host }}"
+    api_token_id: "{{ proxmox_api_token_id }}"
+    api_token_secret: "{{ proxmox_api_token_secret }}"
+    api_user: "{{ proxmox_api_user }}"
+    comment: "{{ item.ha.comment | default(omit) }}"
+    hastate: "{{ item.ha.hastate | default(omit) }}"
+    max_relocate: "{{ item.ha.max_relocate | default(omit) }}"
+    max_restart: "{{ item.ha.max_restart | default(omit) }}"
+    name: "ct:{{ item.vmid }}"
+    state: "{{ item.ha.state | mandatory }}"
+    validate_certs: "{{ proxmox_api_validate_certs }}"
+  when: item.ha is defined
+  loop: "{{ proxmox_container }}"
+
+- name: Remove HA resources
+  community.proxmox.proxmox_cluster_ha_resources:
+    api_host: "{{ proxmox_api_host }}"
+    api_token_id: "{{ proxmox_api_token_id }}"
+    api_token_secret: "{{ proxmox_api_token_secret }}"
+    api_user: "{{ proxmox_api_user }}"
+    name: "ct:{{ item.vmid }}"
+    state: "absent"
+    validate_certs: "{{ proxmox_api_validate_certs }}"
+  when: not item.ha is defined
+  loop: "{{ proxmox_container }}"
