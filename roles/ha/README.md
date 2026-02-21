@@ -31,7 +31,7 @@ variables below:
 
 [pve_api_tokens]: https://pve.proxmox.com/pve-docs/chapter-pveum.html#pveum_tokens
 
-By default, the proxmox modules in `community.general` do not validate SSL
+By default, the proxmox modules in `community.proxmox` do not validate SSL
 certs. To enable certificate validation, define the variable:
 
  - `proxmox_api_validate_certs: true`

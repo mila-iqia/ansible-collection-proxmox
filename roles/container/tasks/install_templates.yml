@@ -17,7 +17,7 @@
     __ostemplate_regex: '^([-a-z0-9]+):([a-z]+)/(.*)'
 
 - name: Download proxmox appliance container templates
-  community.general.proxmox_template:
+  community.proxmox.proxmox_template:
     api_host: "{{ proxmox_api_host }}"
     api_user: "{{ proxmox_api_user }}"
     api_token_id: "{{ proxmox_api_token_id }}"

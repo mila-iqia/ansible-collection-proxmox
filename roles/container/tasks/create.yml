@@ -1,6 +1,6 @@
 ---
 - name: Setup LXC Containers
-  community.general.proxmox:
+  community.proxmox.proxmox:
     api_host: "{{ proxmox_api_host }}"
     api_token_id: "{{ item.api_token_id | default(proxmox_api_token_id) }}"
     api_token_secret: "{{ item.api_token_secret | default(proxmox_api_token_secret) }}"
@@ -35,7 +35,7 @@
 
   # ostemplate and update are mutually exclusive
 - name: Update LXC Containers
-  community.general.proxmox:
+  community.proxmox.proxmox:
     api_host: "{{ proxmox_api_host }}"
     api_token_id: "{{ item.api_token_id | default(proxmox_api_token_id) }}"
     api_token_secret: "{{ item.api_token_secret | default(proxmox_api_token_secret) }}"
@@ -71,7 +71,7 @@
   loop: "{{ proxmox_container }}"
 
 - name: Manage Containers state
-  community.general.proxmox:
+  community.proxmox.proxmox:
     api_host: "{{ proxmox_api_host }}"
     api_user: "{{ proxmox_api_user }}"
     api_token_id: "{{ proxmox_api_token_id }}"

@@ -1,7 +1,7 @@
 # mila.proxmox.vm
 
 To manage virtual machines, use the role `mila.proxmox.vm`. This role makes use
-of the Ansible modules `community.general.proxmox_kvm`.
+of the Ansible module `community.proxmox.proxmox_kvm`.
 
 The VMs are created from a list defined in `proxmox_vm`. Each item
 in the list defines one VM.
@@ -32,7 +32,7 @@ variables below:
 
 [pve_api_tokens]: https://pve.proxmox.com/pve-docs/chapter-pveum.html#pveum_tokens
 
-By default, the proxmox modules in `community.general` do not validate SSL
+By default, the proxmox modules in `community.proxmox` do not validate SSL
 certs. To enable certificate validation, define the variable:
 
  - `proxmox_api_validate_certs: true`
