@@ -1,7 +1,7 @@
 ---
 # Define if the SSL certificates must be validated
 #
-# By default, the proxmox modules in `community.general` do not validate SSL
+# By default, the proxmox modules in `community.proxmox` do not validate SSL
 # certs. Make this a default for use with other modules like
 # `ansible.builtin.uri` (used for API calls)
 proxmox_api_validate_certs: false

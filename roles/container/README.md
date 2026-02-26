@@ -1,8 +1,8 @@
 # mila.proxmox.container
 
 To manage containers, use the role `mila.proxmox.container`. This role makes use
-of the Ansible modules `community.general.proxmox_template` and
-`community.general.proxmox`.
+of the Ansible modules `community.proxmox.proxmox_template` and
+`community.proxmox.proxmox`.
 
 The containers are created from a list defined in `proxmox_container`. Each item
 in the list defines one container.
@@ -24,7 +24,7 @@ Example for a container:
 The role will parse `ostemplate` to ensure the required template is available on
 all hosts.
 
-Most of the parameters supported by the module `community.general.proxmox` can
+Most of the parameters supported by the module `community.proxmox.proxmox` can
 be defined in the list. The following parameters are not supported yet, but
 this might change in future development: `api_password`, `ip_address`, 
 `password`, `pool`, `purge`, `searchdomain` and `storage`.
@@ -57,7 +57,7 @@ In the example above, `item.api_user` and `item.api_token_secret` will
 respectively replace the values of `proxmox_api_user` and
 `proxmox_api_token_secret`.
 
-By default, the proxmox modules in `community.general` do not validate SSL
+By default, the proxmox modules in `community.proxmox` do not validate SSL
 certs. To enable certificate validation, define the variable:
 
  - `proxmox_api_validate_certs: true`
@@ -101,7 +101,7 @@ Ansible inventory.
 
 
 Once a container exists, some parameters cannot be changed with the
-`community.general.proxmox` module. To circumvent this limitation, it is
+`community.proxmox.proxmox` module. To circumvent this limitation, it is
 possible to destroy the containers and recreate these. For this, include the
 role `mila.proxmox.container` in the pre_tasks of your playbook, with
 `tasks_from: destroy`.

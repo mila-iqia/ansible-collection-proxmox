@@ -11,7 +11,7 @@ change quickly and without notice while version is still 0.x.y.
 
 The below requirements are needed on the host that executes this collection:
 
- - collection `community.general`
+ - collection `community.proxmox`
  - jmespath
  - proxmoxer
  - requests
