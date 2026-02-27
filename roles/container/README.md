@@ -138,3 +138,36 @@ be effective.
 To enable update of LXC containers with new values:
 
  - `proxmox_container_update: true`
+
+## High Availability (HA) Resources
+
+The role supports configuring HA resources for containers. To enable HA for a container,
+add an `ha` key to the container definition. The `ha.state` parameter is mandatory.
+
+Example with HA configuration:
+
+    proxmox_container:
+      - hostname: 'container1'
+        node: 'pve-1'
+        ostemplate: 'local:vztmpl/debian-11-standard_11.0-1_amd64.tar.gz'
+        disk: 'local:2'
+        cores: 2
+        nameserver: '10.10.0.1'
+        netif: '{"net0":"name=eth0,gw=10.10.0.254,hwaddr=42:4d:69:6c:61:00,ip=dhcp,bridge=vmbr0"}'
+        unprivileged: True
+        ha:
+          state: 'present'
+          comment: 'Critical service container'
+          hastate: 'started'
+          max_relocate: 3
+          max_restart: 5
+
+Supported HA parameters:
+- `state`: (mandatory) The state of the HA resource (`present` or `absent`)
+- `comment`: Optional comment for the HA resource
+- `hastate`: The desired HA state
+- `max_relocate`: Maximum number of relocations
+- `max_restart`: Maximum number of restarts
+
+If the `ha` key is not defined for a container, any existing HA resource for that
+container will be removed.
